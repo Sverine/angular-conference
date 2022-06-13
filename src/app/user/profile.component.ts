@@ -1,3 +1,4 @@
+import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
@@ -33,11 +34,18 @@ export class ProfileComponent implements OnInit {
   }
   saveProfile(formValues:{firstName:string, lastName:string}){
     if(this.profileForm.valid){
-      this.authService.updateCurrentUser(formValues.firstName,formValues.lastName);
+      this.authService.updateCurrentUser(formValues.firstName,formValues.lastName)
+        .subscribe(()=>{
+          this.toastr.success('Profile has been changed', '');
+        })
       this.router.navigate(['events']);
     }
-    this.toastr.success('Profile has been changed', '');
-     
+  }
+
+  logout(){
+    this.authService.logout().subscribe(()=>{
+      this.router.navigate(['/user/login'])
+    })
   }
 
   validateFirstName():boolean{

@@ -8,6 +8,7 @@ import { VoterService } from "./voter.service";
     templateUrl:'./session-list.component.html',
 })
 export class SessionListComponent implements OnChanges{
+    @Input() eventId?: number;
     @Input() sessions?: ISession[];
     @Input() filterBy?:string;
     @Input() sortBy?:string;
@@ -25,9 +26,9 @@ export class SessionListComponent implements OnChanges{
 
     toggleVote(session:ISession){
         if(this.userHasVoted(session)){
-            this.voterService.deleteVoter(session,this.auth.currentUser.userName)
+            this.voterService.deleteVoter(session,this.auth.currentUser.userName, this.eventId)
         }else{
-            this.voterService.addVoter(session, this.auth.currentUser.userName)
+            this.voterService.addVoter(session, this.auth.currentUser.userName, this.eventId)
         }
         if(this.sortBy === 'votes'){
             this.visibleSessions?.sort(this.sortByVotesDesc);

@@ -15,10 +15,17 @@ export class LoginComponent{
     userName!:string;
     password!:string;
     mouseOverLogin!:boolean;
+    loginInvalid = false;
 
     login(formValue:any):void{
-        this.authService.loginUser(formValue.userName, formValue.password);
-        this.router.navigate(['events'])
+        this.authService.loginUser(formValue.userName, formValue.password)
+            .subscribe(res=>{
+                if(!res){
+                    this.loginInvalid = true;
+                }else{
+                    this.router.navigate(['events'])
+                }
+            })
     }
 
     cancel(){

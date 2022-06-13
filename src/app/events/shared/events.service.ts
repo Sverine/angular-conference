@@ -5,13 +5,7 @@ import { IEvent, ISession } from "./event.model";
 
 @Injectable()
 export class EventsService{
-    // getEvents(){
-    //   return new Observable(observer=>{
-    //     setTimeout(()=>{
-    //       observer.next(EVENTS);
-    //     },1000)
-    //   })
-    // }
+
     constructor(private http:HttpClient){}
      
     getEvents():Observable<IEvent[]|unknown>{
@@ -26,9 +20,7 @@ export class EventsService{
       .pipe(catchError(this.handleError<IEvent>('getEvent')))
     }
     
-    // getEvent(id:number){
-    //   return EVENTS.find(event=>event.id === id)
-    // }
+
 
     private handleError<T>(operation='operation',result?:T){
       return (error:any):Observable<T> => {
@@ -42,9 +34,6 @@ export class EventsService{
       let options = {headers: new HttpHeaders({'Content-Type':'application/json'})};
       return this.http.post<IEvent>('/api/events', event, options)
       .pipe(catchError(this.handleError<IEvent>('saveEvent')))
-      // event.id = 999;
-      // event.sessions = [];
-      // EVENTS.push(event)
     }
     
     updateEvent(event:IEvent){
@@ -55,25 +44,7 @@ export class EventsService{
     searchSessions(searchTerm:string):Observable<ISession[]>{
       return this.http.get<ISession[]>('api/sessions/search?search='+searchTerm)
       .pipe(catchError(this.handleError<ISession[]>('searchSessions')))
-      // let term:string = searchTerm.toLowerCase();
-      // let results:ISession[] = [];
 
-      // EVENTS.forEach((event)=>{
-      //   let matchingSessions = event.sessions
-      //     .filter((session)=>session.name.toLowerCase()
-      //     .indexOf(term)>-1);
-      //     matchingSessions = matchingSessions.map((session:any)=>{
-      //       session.eventId = event.id;
-      //       return session;
-      //     })
-      //     results = results.concat(matchingSessions)
-      // })
-
-      // let emitter = new EventEmitter(true);
-      // setTimeout(()=>{
-      //   emitter.emit(results)
-      // },1000)
-      // return emitter
     }
 }
 
